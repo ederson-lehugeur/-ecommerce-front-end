@@ -1,3 +1,4 @@
+import { StorageService } from './../../services/storage.service';
 import { AuthService } from './../../services/auth.service';
 import { Component } from '@angular/core';
 import { NavController, IonicPage, MenuController } from 'ionic-angular';
@@ -18,7 +19,8 @@ export class HomePage {
   constructor(
     public navCtrl: NavController,
     public menu: MenuController,
-    public auth: AuthService
+    public auth: AuthService,
+    public storage: StorageService
   ) {}
 
   ionViewWillEnter() {
@@ -30,12 +32,14 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-    this.auth.refreshToken()
-      .subscribe(response => {
-        this.auth.successfulLogin(response.headers.get('Authorization'))
-        this.navCtrl.setRoot('CategoriasPage');
-      },
-      error => {});
+    if (this.storage.getLocalUser()) {
+      this.auth.refreshToken()
+        .subscribe(response => {
+          this.auth.successfulLogin(response.headers.get('Authorization'))
+          this.navCtrl.setRoot('CategoriasPage');
+        },
+        error => {});
+    }
   }
 
   login() {
