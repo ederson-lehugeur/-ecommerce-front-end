@@ -8,14 +8,13 @@ import { ClienteDTO } from "../../models/cliente.dto";
 @Injectable()
 export class ClienteService {
 
-    constructor(public http: HttpClient, public storage: StorageService) {}
+    constructor(public http: HttpClient, public storage: StorageService) { }
 
-    findByEmail(email: string) : Observable<ClienteDTO> {
-        return this.http.get<ClienteDTO>(
-            `${API_CONFIG.baseUrl}/clientes/email?email=${email}`);
+    findByEmail(email: string) {
+        return this.http.get(`${API_CONFIG.baseUrl}/clientes/email?email=${email}`);
     }
 
-    getImageFromBucket(id: string) : Observable<any> {
+    getImageFromBucket(id: string): Observable<any> {
         const url = `${API_CONFIG.bucketBaseUrl}/cp${id}.jpg`
 
         return this.http.get(url, { responseType: 'blob' });

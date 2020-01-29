@@ -20,7 +20,7 @@ export class CartPage {
     public navParams: NavParams,
     public cartService: CartService,
     public produtoService: ProdutoService
-  ) {}
+  ) { }
 
   ionViewDidLoad() {
     let cart = this.cartService.getCart();
@@ -34,7 +34,7 @@ export class CartPage {
         .subscribe(response => {
           item.produto.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.produto.id}-small.jpg`;
         },
-        error => {});
+          error => { });
     });
   }
 
@@ -50,12 +50,16 @@ export class CartPage {
     this.itens = this.cartService.decreaseQuantity(produto).itens;
   }
 
-  total() :number {
+  total(): number {
     return this.cartService.total();
   }
 
   goOn() {
     this.navCtrl.setRoot('CategoriasPage');
+  }
+
+  checkout() {
+    this.navCtrl.push('PickAddressPage');
   }
 
 }
